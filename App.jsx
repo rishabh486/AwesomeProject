@@ -117,30 +117,90 @@
 
 // export default App;
 
-import React from 'react'
+// import React from 'react'
 
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet
-} from 'react-native'
+// import {
+//   View,
+//   Text,
+//   SafeAreaView,
+//   StyleSheet
+// } from 'react-native'
 
-function App() {
+// function App() {
+//   return (
+
+//     <View style={styles.container}>
+//       <Text>Hello world !</Text>
+//       <Text>Hello world !</Text>
+//       {/* <Text>Hello world !</Text> */}
+//     </View>
+
+//   )
+// }
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: 'center'
+//   }
+// })
+// export default App;
+
+// import React from 'react';
+// import { Provider } from 'react-redux';
+// import AppNavigator from './navigation/AppNavigator';
+// import store from './store';
+
+// const App = () => {
+//   console.log("hello")
+//   return (
+//     <Provider store={store}>
+//       <AppNavigator />
+//     </Provider>
+//   );
+// };
+
+// export default App;
+import React from 'react';
+import {Provider} from 'react-redux';
+import {SafeAreaView, View, Text} from 'react-native';
+import TodoListScreen from './screens/TodoListScreen';
+import store from './store';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStaticNavigation, useNavigation} from '@react-navigation/native';
+import {Button} from '@react-navigation/elements';
+const Stack = createNativeStackNavigator();
+
+function RootStack() {
   return (
-
-    <View style={styles.container}>
-      <Text>Hello world !</Text>
-      <Text>Hello world !</Text>
-      {/* <Text>Hello world !</Text> */}
-    </View>
-
-  )
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="TodoList" component={TodoListScreen} />
+    </Stack.Navigator>
+  );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center'
-  }
-})
+const HomeScreen = () => {
+  const navigation = useNavigation();
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Home Screen</Text>
+      <Button onPress={() => navigation.navigate('TodoList')}>
+        Go to Details
+      </Button>
+    </View>
+  );
+};
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Provider store={store}>
+        <SafeAreaView style={{flex: 1}}>
+          {/* <TodoListScreen /> */}
+          <RootStack />
+        </SafeAreaView>
+      </Provider>
+    </NavigationContainer>
+  );
+};
+
 export default App;
